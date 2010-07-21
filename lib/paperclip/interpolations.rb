@@ -78,9 +78,10 @@ module Paperclip
     # Returns the extension of the file. e.g. "jpg" for "file.jpg"
     # If the style has a format defined, it will return the format instead
     # of the actual extension.
-    def extension attachment, style_name
-      ((style = attachment.styles[style_name]) && style[:format]) ||
-        File.extname(attachment.original_filename).gsub(/^\.+/, "")
+    def extension attachment, style 
+      ((style = attachment.styles[style]) && style[:format]) ||
+        ((ext = File.extname(attachment.original_filename).gsub(/^\.+/, "")) && !ext.empty? && ext) ||
+        attachment.content_type.to_s.split('/').last
     end
 
     # Returns the id of the instance.
