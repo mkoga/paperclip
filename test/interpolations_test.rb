@@ -43,6 +43,14 @@ class InterpolationsTest < Test::Unit::TestCase
     assert_equal "jpg", Paperclip::Interpolations.extension(attachment, :style)
   end
 
+  should "return the extension of the file based on the content type" do
+    attachment = mock
+    attachment.expects(:original_filename).returns("one")
+    attachment.expects(:content_type).returns("image/png")
+    attachment.expects(:styles).returns({})
+    assert_equal "png", Paperclip::Interpolations.extension(attachment, :style)
+  end
+  
   should "return the extension of the file as the format if defined in the style" do
     attachment = mock
     attachment.expects(:original_filename).never
